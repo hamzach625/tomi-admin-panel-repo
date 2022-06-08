@@ -1,0 +1,438 @@
+
+.create{
+    margin-bottom: 130px;
+    .pool-detail{
+        margin-top: 70px;
+        margin-bottom: 30px;
+        .heading{
+            margin-bottom: 40px;
+            h6{
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 140%;
+                color: #414469;
+            }
+        }
+        .input-field{
+            p{
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 140%;
+                color: #414469;
+                margin-bottom: 10px;
+            }
+            input{
+                width: 530px;
+                height: 51px;
+                padding-left: 17px;
+                &::placeholder{
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #D7D7D7;
+                }
+            }
+        }
+    }
+    .staking-token{
+        .heading{
+            margin-bottom: 20px;
+            h6{
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 140%;
+                color: #414469;
+            }
+        }
+        .switch{
+            margin-bottom: 40px !important;
+            .custom-switch{
+                input{
+                    color: #FF0083;
+                    background-color: #FF0083;
+                }
+                label{
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 16px;
+                    color: #0B0E34;
+                    padding-left: 20px;
+                }
+            }
+        }
+        .input-field{
+            margin-bottom: 30px;
+            p{
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 140%;
+                color: #414469;
+                margin-bottom: 10px;
+            }
+            input{
+                width: 354.5px;
+                height: 57px;
+                padding-left: 17px;
+                &::placeholder{
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #D7D7D7;
+                }
+            }
+            label{
+                cursor: pointer;
+            }
+            .upload{
+                background: #FFFFFF;
+                border: 1.5px dashed #E7E8EE;
+                border-radius: 10px;
+                width: 294px;
+                height: 176px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .upload-img{
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                }
+            }
+            .text{
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+                p{
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px !important;
+                line-height: 17px;
+                text-align: center;
+                color: #C9C9C9;
+                margin-bottom: 0 !important;
+                margin-right: 30px;
+                &:last-child{
+                    margin-right: 0 !important;
+                }
+                span{
+                    color: #FF0083;
+                }
+                }
+            }
+        }
+        .saking-btn{
+            button{
+                padding: 16px 25px;
+                img{
+                    margin-right: 12px;
+                }
+            }
+        }
+    }
+    .reward-token{
+        margin-top: 30px;
+        margin-bottom: 30px;
+        .heading{
+            margin-bottom: 20px;
+            h6{
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 140%;
+                color: #414469;
+            }
+        }
+        .switch{
+            margin-bottom: 40px !important;
+            .custom-switch{
+                input{
+                    color: #FF0083;
+                    background-color: #FF0083;
+                }
+                label{
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 16px;
+                    color: #0B0E34;
+                    padding-left: 20px;
+                }
+            }
+        }
+        .input-field{
+            margin-bottom: 30px;
+            p{
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 140%;
+                color: #414469;
+                margin-bottom: 10px;
+            }
+            input{
+                width: 354.5px;
+                height: 57px;
+                padding-left: 17px;
+                &::placeholder{
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #D7D7D7;
+                }
+            }
+            label{
+                cursor: pointer;
+            }
+            .upload{
+                background: #FFFFFF;
+                border: 1.5px dashed #E7E8EE;
+                border-radius: 10px;
+                width: 294px;
+                height: 176px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .upload-img{
+                    width: 80px;
+                    height: 80px;
+                    border-radius: 50%;
+                }
+            }
+            .text{
+                display: flex;
+                align-items: center;
+                margin-top: 10px;
+                p{
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px !important;
+                line-height: 17px;
+                text-align: center;
+                color: #C9C9C9;
+                margin-bottom: 0 !important;
+                margin-right: 30px;
+                &:last-child{
+                    margin-right: 0 !important;
+                }
+                span{
+                    color: #FF0083;
+                }
+                }
+            }
+        }
+        .unsaking-btn{
+            button{
+                padding: 16px 25px;
+                img{
+                    margin-right: 12px;
+                }
+            }
+        }
+    }
+    .other-detail{
+        margin-bottom: 70px;
+        .heading{
+            margin-bottom: 20px;
+            h6{
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 140%;
+                color: #414469;
+            }
+        }
+        .input-field{
+            margin-bottom: 30px;
+            p{
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 140%;
+                color: #414469;
+                margin-bottom: 10px;
+            }
+            input{
+                width: 100%;
+                height: 57px;
+                padding-left: 17px;
+                &::placeholder{
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #D7D7D7;
+                }
+            }
+            select{
+                width: 100%;
+                height: 57px;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 19px;
+                border: 1.5px solid #E7E8EE;
+                border-radius: 10px;
+            }
+            select:focus{
+                border: 1.5px solid #E7E8EE !important;
+            }
+            .inner-option{
+                color: #000 !important;
+            }
+        }
+    }
+    .switch{
+        margin-bottom: 30px;
+        .switch-para{
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px !important;
+            line-height: 140%;
+            color: #414469 !important;
+            margin-top: 22px;
+            margin-bottom: 10px;
+        }
+        .input-field{
+            margin-bottom: 30px;
+            input{
+                width: 354px;
+                height: 57px;
+                padding-left: 17px;
+                &::placeholder{
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: #D7D7D7;
+                }
+            }
+        }
+    
+    }
+        
+    .btn-create{
+        margin-top: 30px;
+        button{
+            padding: 19px 45px;
+            font-weight: 700 !important;
+        }
+        .btn-clear{
+            background: #FFFFFF;
+            border: 1px solid #E7E8EE !important;
+            border-radius: 10px;
+            margin-left: 18px;
+            &:hover{
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+                transition: all 0.7s;
+            }
+        }
+    }
+    }
+    .apy{
+        position: relative;
+        .percent{
+            position: absolute;
+            top: 54px;
+            right: 17px;
+        }
+    }
+
+
+.padd-0{
+    padding: 0 !important;
+}
+.padd-l{
+    padding-left: 0 !important;
+}
+.custom-control-input:checked~.custom-control-label::before{
+    background-color: white;
+}
+
+
+.custom-control-input:checked~.custom-control-label::before {
+    color: #000;;
+    border-color:grey;
+    background-color:#ffff;
+
+}
+.custom-switch .custom-control-input:checked~.custom-control-label::after {
+    background-color: #FF0083 !important;
+    -webkit-transform: translateX(0.75rem);
+    transform: translateX(0.75rem);
+}
+.switch .custom-switch .custom-control-label::before{
+    width: 40px;
+    height: 22px;
+    top: 1px !important;
+    border-radius: 100px;
+}
+.switch .custom-switch .custom-control-label::after{
+    width: 17px;
+    height: 17px;
+    top: 3px !important;
+}
+.switch .custom-switch .custom-control-input:checked~.custom-control-label::after{
+    transform: translateX(1.1rem);
+}
+.switch .custom-control-input:checked~.custom-control-label::before{
+    border-color: #FF0083 !important;
+}
+.custom-control-label{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    color: #0b0e34;
+    padding-left: 20px;
+}
+
+
+@media(max-width:991px){
+    .padd-l{
+        padding: 0 !important;
+    }
+}
+@media(max-width:600px){
+    .create .pool-detail .input-field input{
+        width: 100%;
+    }
+}
+@media(max-width:430px){
+    .create .staking-token .input-field input{
+        width: 100%;
+    }
+    .create .reward-token .input-field input{
+        width: 100%;
+    }
+    .create .staking-token .input-field .upload{
+        width: 100%;
+    }
+    .create .reward-token .input-field .upload{
+        width: 100%;
+    }
+    .create .switch .input-field input{
+        width: 100% !important;
+    }
+}
+@media(max-width:380px){
+    .create .btn-create .btn-clear{
+        margin: 0 !important;
+    }
+    .create .btn-create button{
+        margin-bottom: 10px;
+    }
+}
+
+
+.create-heading{
+font-style: normal;
+font-weight: 700 !important;
+font-size: 18px !important;
+line-height: 22px !important;
+color: #0B0E34 !important;
+}
