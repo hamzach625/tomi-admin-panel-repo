@@ -29,6 +29,7 @@ const Login = () => {
         .then((response) => {
           if (response) {
             setMainLoader(false);
+            console.log("resss", response);
             const token = response.data.token;
             localStorage.setItem("mytoken", token);
             // setOpen(false)
@@ -106,7 +107,11 @@ const Login = () => {
                     class="form-check-input"
                     id="exampleCheck1"
                   />
-                  <label class="form-check-label" for="exampleCheck1" className="label-rem">
+                  <label
+                    class="form-check-label"
+                    for="exampleCheck1"
+                    className="label-rem"
+                  >
                     Remember me
                   </label>
                 </div>
