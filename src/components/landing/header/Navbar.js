@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
 import "./navbar.scss";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 import useAuth from "../../../hooks/useAuth";
 
@@ -13,7 +13,7 @@ const Navbar = () => {
   const logout1 = () => {
     localStorage.clear();
     history.push("/");
-  }
+  };
 
   const connectMetamask = () => {
     localStorage.setItem("connectorId", "injected");
@@ -42,7 +42,7 @@ const Navbar = () => {
           <div className="row">
             <div className="col-xl-11 col-lg-11 m-auto padd">
               <nav className="navbar ptb20 navbar-expand-xl">
-                <NavLink to='/landing' className="navbar-brand">
+                <NavLink to="/landing" className="navbar-brand">
                   <img
                     src="/assests\logo\logo.svg"
                     alt=""
@@ -81,16 +81,27 @@ const Navbar = () => {
                     </li>
                   </ul>
                   <div className="align-left">
-                    {account ? <p className="connected-tag">Connected: <span>{account}</span> </p> : ''}
-                    {account ? <div> <button
-                      type="button"
-                      class="btn-yellow sbvsx mr-2"
-                      onClick={logoutt}
-                    // data-toggle="modal"
-                    // data-target="#myModal2"
-                    >
-                      Disconnect
-                    </button></div> :
+                    {account ? (
+                      <p className="connected-tag">
+                        Connected: <span>{account}</span>{" "}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                    {account ? (
+                      <div>
+                        {" "}
+                        <button
+                          type="button"
+                          class="btn-yellow sbvsx mr-2"
+                          onClick={logoutt}
+                          // data-toggle="modal"
+                          // data-target="#myModal2"
+                        >
+                          Disconnect
+                        </button>
+                      </div>
+                    ) : (
                       <button
                         type="button"
                         class="btn-yellow sbvsxvv"
@@ -99,15 +110,19 @@ const Navbar = () => {
                       >
                         Connect wallet
                       </button>
-                    }
+                    )}
                     <button
                       type="button"
                       class="btn-yellow sbvsx"
                       onClick={logout1}
-                    // data-toggle="modal"
-                    // data-target="#myModal2"
+                      // data-toggle="modal"
+                      // data-target="#myModal2"
                     >
-                      <img src="/assests\logo\logout_icon.svg" alt="img" className="img-fluid" />
+                      <img
+                        src="/assests\logo\logout_icon.svg"
+                        alt="img"
+                        className="img-fluid"
+                      />
                       Logout
                     </button>
                   </div>
@@ -136,7 +151,8 @@ const Navbar = () => {
               >
                 <img
                   src="./assests\CardsImg\close.svg"
-                  className="img-fluid" alt="img"
+                  className="img-fluid"
+                  alt="img"
                 />
               </button>
               <div className="upper_text">
@@ -157,17 +173,25 @@ const Navbar = () => {
                   type="button"
                   className="btn btn-btn-button d-block mb_bottom"
                   onClick={connectMetamask}
+                  data-dismiss="modal"
                 >
                   <img
                     src="./assests\CardsImg\metamas.svg"
-                    className="img-fluid" alt="img"
+                    className="img-fluid"
+                    alt="img"
                   />
                   Metamask
                 </button>
-                <button type="button" className="btn btn-btn-button " onClick={trustWallet}>
+                <button
+                  type="button"
+                  className="btn btn-btn-button "
+                  onClick={trustWallet}
+                  data-dismiss="modal"
+                >
                   <img
                     src="./assests\CardsImg\wal.svg"
-                    className="img-fluid " alt="img"
+                    className="img-fluid "
+                    alt="img"
                   />
                   WalletConnect
                 </button>

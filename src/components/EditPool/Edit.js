@@ -2,347 +2,446 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../landing/header/Navbar";
 import Loader from "../../hooks/loader";
 import axios from "axios";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import "./edit.scss";
-import { useHistory } from 'react-router-dom';
-import { getFactoryContract, getStakeBNBtoBNB, getStakeBNBtoToken, getStakeTokentoToken, getStakeTokentoBNB } from '../../utils/contractHelpers'
+import { useHistory } from "react-router-dom";
+import {
+  getFactoryContract,
+  getStakeBNBtoBNB,
+  getStakeBNBtoToken,
+  getStakeTokentoToken,
+  getStakeTokentoBNB,
+} from "../../utils/contractHelpers";
 import Environment from "../../utils/Environment";
-import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from "@web3-react/core";
 import { API_URL } from "../../utils/ApiUrl";
-import { useCallback } from 'react'
-import useWeb3 from '../../hooks/useWeb3'
+import { useCallback } from "react";
+import useWeb3 from "../../hooks/useWeb3";
 import { InputSharp } from "@material-ui/icons";
 
 const Edit = (props) => {
   const id = props.match.params.id;
-  const [userDetail, setUserDetail] = useState()
-  console.log("idddd", id)
+  const [userDetail, setUserDetail] = useState();
+  console.log("idddd", id);
   const history = useHistory();
   const [mainLoader, setMainLoader] = useState(false);
   const [isLive, setIsLive] = useState();
   const [isLiveUnstake, setIsLiveUnstake] = useState();
   const web3 = useWeb3();
   const { account } = useWeb3React();
-  const [token1, settoken1] = useState()
-  const [token, settoken] = useState()
-  const [MyFiles, setMyFiles] = useState()
-  const [MyFiles1, setMyFiles1] = useState()
+  const [token1, settoken1] = useState();
+  const [token, settoken] = useState();
+  const [MyFiles, setMyFiles] = useState();
+  const [MyFiles1, setMyFiles1] = useState();
   const [isBNB, setisBNB] = useState({
-    StakingTokenName: 'Binance Coin',
-    StakingTokenSymbol: 'BNB',
-    StakingTokenAddress: '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-    StakingTokenDecimals: '18',
-  })
+    StakingTokenName: "Binance Coin",
+    StakingTokenSymbol: "BNB",
+    StakingTokenAddress: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    StakingTokenDecimals: "18",
+  });
   const [inputs, setInputs] = useState({
-    poolName: '',
+    poolName: "",
     tokenBNB: false,
-    StakingTokenName: '',
-    StakingTokenSymbol: '',
-    StakingTokenAddress: '',
-    StakingTokenDecimals: '',
+    StakingTokenName: "",
+    StakingTokenSymbol: "",
+    StakingTokenAddress: "",
+    StakingTokenDecimals: "",
     rewardBNB: false,
-    rewardTokenName: '',
-    rewardTokenSymbol: '',
-    rewardTokenAddress: '',
-    rewardTokenDecimals: '',
-    lockPeriod: '',
-    apy: '',
-    rewardWalletAddress: '',
-    maxSupplyReward: '',
+    rewardTokenName: "",
+    rewardTokenSymbol: "",
+    rewardTokenAddress: "",
+    rewardTokenDecimals: "",
+    lockPeriod: "",
+    apy: "",
+    rewardWalletAddress: "",
+    maxSupplyReward: "",
     autoCompound: false,
     PreUnstaking: false,
-    feeUnstaking: ''
-  })
-  const { tokenBNB, StakingTokenName, StakingTokenSymbol, StakingTokenAddress, StakingTokenDecimals, rewardTokenName, rewardTokenSymbol, rewardTokenAddress, rewardTokenDecimals } = inputs;
+    feeUnstaking: "",
+  });
+  const {
+    tokenBNB,
+    StakingTokenName,
+    StakingTokenSymbol,
+    StakingTokenAddress,
+    StakingTokenDecimals,
+    rewardTokenName,
+    rewardTokenSymbol,
+    rewardTokenAddress,
+    rewardTokenDecimals,
+  } = inputs;
 
-  console.log("inputs fields", userDetail)
+  console.log("inputs fields", userDetail);
 
   const handleChange1 = (e) => {
-
     const { name, value } = e.target;
-    setInputs(inputs => ({ ...inputs, [name]: value }));
-  }
+    setInputs((inputs) => ({ ...inputs, [name]: value }));
+  };
 
   const getdata = () => {
-    setMainLoader(true)
-    axios.post(`${API_URL}/v1/pool/getPoolById`, { _id: id })
+    setMainLoader(true);
+    axios
+      .post(`${API_URL}/v1/pool/getPoolById`, { _id: id })
       .then((response) => {
-        setUserDetail(response.data.pool)
-        settoken(response.data.pool.stakingTokenLogo)
-        settoken1(response.data.pool.rewardTokenLogo)
-        setMainLoader(false)
-
-      }).catch((err) => {
-        setMainLoader(false)
+        setUserDetail(response.data.pool);
+        settoken(response.data.pool.stakingTokenLogo);
+        settoken1(response.data.pool.rewardTokenLogo);
+        setMainLoader(false);
+      })
+      .catch((err) => {
+        setMainLoader(false);
         toast.error(err.response?.data.msg, {
           position: "top-center",
           autoClose: 2000,
         });
-      })
-  }
+      });
+  };
 
   const pauseStaking = async () => {
-    setMainLoader(true)
-    let contract = ''
-    try{
+    setMainLoader(true);
+    let contract = "";
+    try {
       if (userDetail.isStakingTokenBnb && userDetail.isRewardTokenBnb) {
         // deployNewCollection = "createBnbForBnb";
-        contract = getStakeBNBtoBNB(userDetail.contractAddress, web3)
-        console.log("BNBTOBNB")
-      } else if (userDetail.isStakingTokenBnb && userDetail.isRewardTokenBnb == false) {
-        contract = getStakeBNBtoToken(userDetail.contractAddress, web3)
-        console.log("BNBToToken")
-      } else if (userDetail.isStakingTokenBnb == false && userDetail.isRewardTokenBnb) {
-        contract = getStakeTokentoBNB(userDetail.contractAddress, web3)
-        console.log("TokenTOBNB")
+        contract = getStakeBNBtoBNB(userDetail.contractAddress, web3);
+        console.log("BNBTOBNB");
+      } else if (
+        userDetail.isStakingTokenBnb &&
+        userDetail.isRewardTokenBnb == false
+      ) {
+        contract = getStakeBNBtoToken(userDetail.contractAddress, web3);
+        console.log("BNBToToken");
+      } else if (
+        userDetail.isStakingTokenBnb == false &&
+        userDetail.isRewardTokenBnb
+      ) {
+        contract = getStakeTokentoBNB(userDetail.contractAddress, web3);
+        console.log("TokenTOBNB");
       } else {
-        contract = getStakeTokentoToken(userDetail.contractAddress, web3)
-        console.log("TokenTOTOken")
+        contract = getStakeTokentoToken(userDetail.contractAddress, web3);
+        console.log("TokenTOTOken");
       }
-      console.log("ressssss contra", contract)
-      const res = await contract.methods.flipStakeState().send({ from: account })
-      if(res){
-        setIsLive(res)
-        setMainLoader(false)
-      }else{
-        setMainLoader(false)
+      console.log("ressssss contra", contract);
+      const res = await contract.methods
+        .flipStakeState()
+        .send({ from: account });
+      if (res) {
+        setIsLive(res);
+        setMainLoader(false);
+      } else {
+        setMainLoader(false);
       }
-      
-      console.log("resssss", res)
-      // let total = parseInt(res)
-    }catch (err) {
-      setMainLoader(false)
-      console.log("approve err", err)
-      throw err
-    }
-    setMainLoader(true)
- 
 
-  } 
+      console.log("resssss", res);
+      // let total = parseInt(res)
+    } catch (err) {
+      setMainLoader(false);
+      console.log("approve err", err);
+      throw err;
+    }
+    setMainLoader(true);
+  };
 
   const pauseUnStaking = async () => {
-    setMainLoader(true)
-    let contract = ''
-    try{
+    setMainLoader(true);
+    let contract = "";
+    try {
       if (userDetail.isStakingTokenBnb && userDetail.isRewardTokenBnb) {
         // deployNewCollection = "createBnbForBnb";
-        contract = getStakeBNBtoBNB(userDetail.contractAddress, web3)
-        console.log("BNBTOBNB")
-      } else if (userDetail.isStakingTokenBnb && userDetail.isRewardTokenBnb == false) {
-        contract = getStakeBNBtoToken(userDetail.contractAddress, web3)
-        console.log("BNBToToken")
-      } else if (userDetail.isStakingTokenBnb == false && userDetail.isRewardTokenBnb) {
-        contract = getStakeTokentoBNB(userDetail.contractAddress, web3)
-        console.log("TokenTOBNB")
+        contract = getStakeBNBtoBNB(userDetail.contractAddress, web3);
+        console.log("BNBTOBNB");
+      } else if (
+        userDetail.isStakingTokenBnb &&
+        userDetail.isRewardTokenBnb == false
+      ) {
+        contract = getStakeBNBtoToken(userDetail.contractAddress, web3);
+        console.log("BNBToToken");
+      } else if (
+        userDetail.isStakingTokenBnb == false &&
+        userDetail.isRewardTokenBnb
+      ) {
+        contract = getStakeTokentoBNB(userDetail.contractAddress, web3);
+        console.log("TokenTOBNB");
       } else {
-        contract = getStakeTokentoToken(userDetail.contractAddress, web3)
-        console.log("TokenTOTOken")
+        contract = getStakeTokentoToken(userDetail.contractAddress, web3);
+        console.log("TokenTOTOken");
       }
-      const res = await contract.methods.flipUnStakeState().send({ from: account })
-      if(res){
-        setIsLiveUnstake(res)
-        setMainLoader(false)
-      }else{
-        setMainLoader(false)
+      const res = await contract.methods
+        .flipUnStakeState()
+        .send({ from: account });
+      if (res) {
+        setIsLiveUnstake(res);
+        setMainLoader(false);
+      } else {
+        setMainLoader(false);
       }
-      
-      
-      // let total = parseInt(res)
 
-    }catch (err) {
-      setMainLoader(false)
-      console.log("approve err", err)
-      throw err
+      // let total = parseInt(res)
+    } catch (err) {
+      setMainLoader(false);
+      console.log("approve err", err);
+      throw err;
     }
-  } 
+  };
 
   const getpauseStatusStaking = async () => {
-    let contract = ''
+    let contract = "";
     if (userDetail.isStakingTokenBnb && userDetail.isRewardTokenBnb) {
       // deployNewCollection = "createBnbForBnb";
-      contract = getStakeBNBtoBNB(userDetail.contractAddress, web3)
-      console.log("BNBTOBNB")
-    } else if (userDetail.isStakingTokenBnb && userDetail.isRewardTokenBnb == false) {
-      contract = getStakeBNBtoToken(userDetail.contractAddress, web3)
-      console.log("BNBToToken")
-    } else if (userDetail.isStakingTokenBnb == false && userDetail.isRewardTokenBnb) {
-      contract = getStakeTokentoBNB(userDetail.contractAddress, web3)
-      console.log("TokenTOBNB")
+      contract = getStakeBNBtoBNB(userDetail.contractAddress, web3);
+      console.log("BNBTOBNB");
+    } else if (
+      userDetail.isStakingTokenBnb &&
+      userDetail.isRewardTokenBnb == false
+    ) {
+      contract = getStakeBNBtoToken(userDetail.contractAddress, web3);
+      console.log("BNBToToken");
+    } else if (
+      userDetail.isStakingTokenBnb == false &&
+      userDetail.isRewardTokenBnb
+    ) {
+      contract = getStakeTokentoBNB(userDetail.contractAddress, web3);
+      console.log("TokenTOBNB");
     } else {
-      contract = getStakeTokentoToken(userDetail.contractAddress, web3)
-      console.log("TokenTOTOken")
+      contract = getStakeTokentoToken(userDetail.contractAddress, web3);
+      console.log("TokenTOTOken");
     }
-    console.log("ressssss contra", contract)
-    const res = await contract.methods.isStakeActive().call()
-    setIsLive(res)
-    console.log("resssss", res)
+    console.log("ressssss contra", contract);
+    const res = await contract.methods.isStakeActive().call();
+    setIsLive(res);
+    console.log("resssss", res);
     // let total = parseInt(res)
-  }
+  };
   const getpauseStatusUnStaking = async () => {
-    let contract = ''
+    let contract = "";
     if (userDetail.isStakingTokenBnb && userDetail.isRewardTokenBnb) {
       // deployNewCollection = "createBnbForBnb";
-      contract = getStakeBNBtoBNB(userDetail.contractAddress, web3)
-      console.log("BNBTOBNB")
-    } else if (userDetail.isStakingTokenBnb && userDetail.isRewardTokenBnb == false) {
-      contract = getStakeBNBtoToken(userDetail.contractAddress, web3)
-      console.log("BNBToToken")
-    } else if (userDetail.isStakingTokenBnb == false && userDetail.isRewardTokenBnb) {
-      contract = getStakeTokentoBNB(userDetail.contractAddress, web3)
-      console.log("TokenTOBNB")
+      contract = getStakeBNBtoBNB(userDetail.contractAddress, web3);
+      console.log("BNBTOBNB");
+    } else if (
+      userDetail.isStakingTokenBnb &&
+      userDetail.isRewardTokenBnb == false
+    ) {
+      contract = getStakeBNBtoToken(userDetail.contractAddress, web3);
+      console.log("BNBToToken");
+    } else if (
+      userDetail.isStakingTokenBnb == false &&
+      userDetail.isRewardTokenBnb
+    ) {
+      contract = getStakeTokentoBNB(userDetail.contractAddress, web3);
+      console.log("TokenTOBNB");
     } else {
-      contract = getStakeTokentoToken(userDetail.contractAddress, web3)
-      console.log("TokenTOTOken")
+      contract = getStakeTokentoToken(userDetail.contractAddress, web3);
+      console.log("TokenTOTOken");
     }
-    const res = await contract.methods.isUnStakeActive().call()
-    setIsLiveUnstake(res)
-    console.log("Unstakeresssss", res)
+    const res = await contract.methods.isUnStakeActive().call();
+    setIsLiveUnstake(res);
+    console.log("Unstakeresssss", res);
     // let total = parseInt(res)
-  }
+  };
 
   const handleChange2 = (e) => {
-    const value = e.target.value
-    setInputs(inputs => ({ ...inputs, lockPeriod: value }));
-  }
+    const value = e.target.value;
+    setInputs((inputs) => ({ ...inputs, lockPeriod: value }));
+  };
 
   const handletoken = (evt) => {
     if (evt.target.files) {
-      const filesarray = Array.from(evt.target.files).map((file) => URL.createObjectURL(file));
+      const filesarray = Array.from(evt.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
 
       settoken(filesarray);
       // Array.from(evt.target.files).map((file) => URL.createObjectURL(file))
     }
     var files = evt.target.files;
     var file = files[0];
-    setMyFiles(file)
-  }
-  console.log("argggginputssss", token)
-  console.log("argggginputssssbnb", token1)
+    setMyFiles(file);
+  };
+  console.log("argggginputssss", token);
+  console.log("argggginputssssbnb", token1);
   const handletoken11 = (evt) => {
-    console.log('sjjsjssjlskjk')
+    console.log("sjjsjssjlskjk");
     if (evt.target.files) {
-      const filesarray = Array.from(evt.target.files).map((file) => URL.createObjectURL(file));
+      const filesarray = Array.from(evt.target.files).map((file) =>
+        URL.createObjectURL(file)
+      );
 
       settoken1(filesarray);
       // Array.from(evt.target.files).map((file) => URL.createObjectURL(file))
     }
     var files = evt.target.files;
     var file = files[0];
-    setMyFiles1(file)
-  }
+    setMyFiles1(file);
+  };
 
   const CreatePool = async () => {
-    setMainLoader(true)
-    let arg = ''
-    let deployNewCollection = ''
+    setMainLoader(true);
+    let arg = "";
+    let deployNewCollection = "";
     if (userDetail.tokenBNB && userDetail.rewardBNB) {
       deployNewCollection = "createBnbForBnb";
       arg = {
         ownerAddress: account,
-        _earlyUnstakeFee: userDetail.PreUnstaking ? userDetail.feeUnstaking.toString() : 0,
-      }
+        _earlyUnstakeFee: userDetail.PreUnstaking
+          ? userDetail.feeUnstaking.toString()
+          : 0,
+      };
     } else if (userDetail.tokenBNB && userDetail.rewardBNB == false) {
       deployNewCollection = "createBnbForToken";
       arg = {
         ownerAddress: account,
-        _earlyUnstakeFee: userDetail.PreUnstaking ? userDetail.feeUnstaking.toString() : 0,
+        _earlyUnstakeFee: userDetail.PreUnstaking
+          ? userDetail.feeUnstaking.toString()
+          : 0,
         _rewardingToken: userDetail.rewardTokenAddress,
-        _rewardingTokenWallet: account
-      }
+        _rewardingTokenWallet: account,
+      };
     } else if (userDetail.tokenBNB == false && userDetail.rewardBNB) {
       deployNewCollection = "createTokenForBnb";
       arg = {
         ownerAddress: account,
-        _earlyUnstakeFee: userDetail.PreUnstaking ? userDetail.feeUnstaking.toString() : 0,
-        _stakeToken: userDetail.tokenBNB ? isBNB.StakingTokenAddress : userDetail.StakingTokenAddress,
-      }
+        _earlyUnstakeFee: userDetail.PreUnstaking
+          ? userDetail.feeUnstaking.toString()
+          : 0,
+        _stakeToken: userDetail.tokenBNB
+          ? isBNB.StakingTokenAddress
+          : userDetail.StakingTokenAddress,
+      };
     } else {
       deployNewCollection = "createTokenForToken";
       arg = {
         ownerAddress: account,
-        _earlyUnstakeFee: inputs.PreUnstaking ? inputs.feeUnstaking.toString() : 0,
-        _stakeToken: inputs.tokenBNB ? isBNB.StakingTokenAddress : inputs.StakingTokenAddress,
+        _earlyUnstakeFee: inputs.PreUnstaking
+          ? inputs.feeUnstaking.toString()
+          : 0,
+        _stakeToken: inputs.tokenBNB
+          ? isBNB.StakingTokenAddress
+          : inputs.StakingTokenAddress,
         _rewardingToken: inputs.rewardTokenAddress,
-        _rewardingTokenWallet: account
-      }
+        _rewardingTokenWallet: account,
+      };
     }
 
-    console.log("argggg", Environment.factoryContarct)
+    console.log("argggg", Environment.factoryContarct);
 
     try {
-      const contract = getFactoryContract(Environment.factoryContarct, web3)
-      const approved = await contract.methods[deployNewCollection](arg).send({ from: account })
-        .on('transactionHash', (tx) => { return tx.transactionHash });
+      const contract = getFactoryContract(Environment.factoryContarct, web3);
+      const approved = await contract.methods[deployNewCollection](arg)
+        .send({ from: account })
+        .on("transactionHash", (tx) => {
+          return tx.transactionHash;
+        });
       const data1 = new FormData();
-      data1.append("contractAddress", approved.events[0].address)
-      data1.append("poolName", inputs.poolName)
-      data1.append("stakingTokenName", inputs.tokenBNB == true ? isBNB.StakingTokenName : StakingTokenName)
-      data1.append("stakingTokenSymbol", inputs.tokenBNB == true ? isBNB.StakingTokenSymbol : StakingTokenSymbol)
-      data1.append("stakingTokenLogo", MyFiles)
-      data1.append("stakingTokenAddress", inputs.tokenBNB == true ? isBNB.StakingTokenAddress : StakingTokenAddress)
-      data1.append("stakingDecimals", inputs.tokenBNB == true ? isBNB.StakingTokenDecimals : StakingTokenDecimals)
-      data1.append("rewardTokenName", inputs.rewardBNB == true ? isBNB.StakingTokenName : rewardTokenName)
-      data1.append("rewardTokenSymbol", inputs.rewardBNB == true ? isBNB.StakingTokenDecimals : rewardTokenSymbol)
-      data1.append("rewardTokenLogo", MyFiles1)
-      data1.append("rewardTokenAddress", inputs.rewardBNB == true ? isBNB.StakingTokenAddress : rewardTokenAddress)
-      data1.append("rewardDecimals", inputs.rewardBNB == true ? isBNB.StakingTokenDecimals : rewardTokenDecimals)
-      data1.append("lockPeriod", inputs.lockPeriod)
-      data1.append("rewardWalletAddress", account)
-      data1.append("maxSupplyOfRewadPool", inputs.maxSupplyReward)
-      data1.append("ApyPerscentage", inputs.apy)
-      data1.append("isStakingTokenBnb", inputs.tokenBNB)
-      data1.append("isRewardTokenBnb", inputs.rewardBNB)
-      data1.append("allowPrematureUnstaking", inputs.PreUnstaking)
-      data1.append("autoCompound", inputs.autoCompound)
-      data1.append("feeForPrematureUnstaking", inputs.feeUnstaking)
+      data1.append("contractAddress", approved.events[0].address);
+      data1.append("poolName", inputs.poolName);
+      data1.append(
+        "stakingTokenName",
+        inputs.tokenBNB == true ? isBNB.StakingTokenName : StakingTokenName
+      );
+      data1.append(
+        "stakingTokenSymbol",
+        inputs.tokenBNB == true ? isBNB.StakingTokenSymbol : StakingTokenSymbol
+      );
+      data1.append("stakingTokenLogo", MyFiles);
+      data1.append(
+        "stakingTokenAddress",
+        inputs.tokenBNB == true
+          ? isBNB.StakingTokenAddress
+          : StakingTokenAddress
+      );
+      data1.append(
+        "stakingDecimals",
+        inputs.tokenBNB == true
+          ? isBNB.StakingTokenDecimals
+          : StakingTokenDecimals
+      );
+      data1.append(
+        "rewardTokenName",
+        inputs.rewardBNB == true ? isBNB.StakingTokenName : rewardTokenName
+      );
+      data1.append(
+        "rewardTokenSymbol",
+        inputs.rewardBNB == true
+          ? isBNB.StakingTokenDecimals
+          : rewardTokenSymbol
+      );
+      data1.append("rewardTokenLogo", MyFiles1);
+      data1.append(
+        "rewardTokenAddress",
+        inputs.rewardBNB == true
+          ? isBNB.StakingTokenAddress
+          : rewardTokenAddress
+      );
+      data1.append(
+        "rewardDecimals",
+        inputs.rewardBNB == true
+          ? isBNB.StakingTokenDecimals
+          : rewardTokenDecimals
+      );
+      data1.append("lockPeriod", inputs.lockPeriod);
+      data1.append("rewardWalletAddress", account);
+      data1.append("maxSupplyOfRewadPool", inputs.maxSupplyReward);
+      data1.append("ApyPerscentage", inputs.apy);
+      data1.append("isStakingTokenBnb", inputs.tokenBNB);
+      data1.append("isRewardTokenBnb", inputs.rewardBNB);
+      data1.append("allowPrematureUnstaking", inputs.PreUnstaking);
+      data1.append("autoCompound", inputs.autoCompound);
+      data1.append("feeForPrematureUnstaking", inputs.feeUnstaking);
 
-      console.log("apppr", data1)
-      axios.post(`${API_URL}/v1/pool/createpool`, data1, { headers: { 'Content-Type': 'multipart/form-data' } })
+      console.log("apppr", data1);
+      axios
+        .post(`${API_URL}/v1/pool/createpool`, data1, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
         .then((response) => {
-          setMainLoader(false)
-          history.push('/landing');
-          toast.success('Pool Created Successfully', {
+          setMainLoader(false);
+          history.push("/landing");
+          toast.success("Pool Created Successfully", {
             position: "top-right",
             autoClose: 3000,
-          })
+          });
           // singleprojectdetail()
-        }).catch((err) => {
-          setMainLoader(false);
         })
-
+        .catch((err) => {
+          setMainLoader(false);
+        });
     } catch (err) {
-      setMainLoader(false)
-      console.log("approve err", err)
-      throw err
+      setMainLoader(false);
+      console.log("approve err", err);
+      throw err;
     }
-  }
+  };
 
   const handleTokenCHeckbox = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setInputs(inputs => ({ ...inputs, tokenBNB: value }));
-  }
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    setInputs((inputs) => ({ ...inputs, tokenBNB: value }));
+  };
 
   const handleRewardCHeckbox = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setInputs(inputs => ({ ...inputs, rewardBNB: value }));
-  }
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    setInputs((inputs) => ({ ...inputs, rewardBNB: value }));
+  };
 
   const handleCompound = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setInputs(inputs => ({ ...inputs, autoCompound: value }));
-  }
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    setInputs((inputs) => ({ ...inputs, autoCompound: value }));
+  };
 
   const handlepremature = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setInputs(inputs => ({ ...inputs, PreUnstaking: value }));
-  }
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    setInputs((inputs) => ({ ...inputs, PreUnstaking: value }));
+  };
 
   useEffect(() => {
-    getdata()
-    getpauseStatusStaking()
-    getpauseStatusUnStaking()
-  }, [id, account])
-
+    getdata();
+    getpauseStatusStaking();
+    getpauseStatusUnStaking();
+  }, [id, account]);
 
   return (
     <>
@@ -413,8 +512,7 @@ const Edit = (props) => {
                         // onChange={handleChange1}
                         readOnly
                         className="input-create"
-                      // readOnly={inputs.tokenBNB}
-
+                        // readOnly={inputs.tokenBNB}
                       />
                     </div>
                     <div className="input-field">
@@ -441,7 +539,7 @@ const Edit = (props) => {
                         placeholder="Staking Token symbol"
                         readOnly
                         className="input-create"
-                      // readOnly={inputs.tokenBNB}
+                        // readOnly={inputs.tokenBNB}
                       />
                     </div>
                     <div className="input-field">
@@ -459,7 +557,7 @@ const Edit = (props) => {
                   <div className="col-xl-4 col-lg-12 col-12 padd-0">
                     <div className="input-field">
                       <p>Staking Token Logo</p>
-                      <div className="upload" >
+                      <div className="upload">
                         {/* <label htmlFor="after-upload">
                             <img
                               src=".\assests\upload-img.png"
@@ -473,7 +571,6 @@ const Edit = (props) => {
                             alt="img"
                             className="img-fluid upload-img"
                           />
-
                         </label>
                         <input
                           id="tokenLogo"
@@ -481,9 +578,7 @@ const Edit = (props) => {
                           type="file"
                           placeholder="Enter pool name "
                           className="input-create d-none"
-
                         />
-
 
                         {/* <input
                           id="after-upload"
@@ -494,23 +589,36 @@ const Edit = (props) => {
                         /> */}
                       </div>
                       <div className="text">
-                        <p>Logo Size: <span>38x38 px</span></p>
-                        <p>File Format: <span>PNG, SVG</span></p>
+                        <p>
+                          Logo Size: <span>38x38 px</span>
+                        </p>
+                        <p>
+                          File Format: <span>PNG, SVG</span>
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="saking-btn">
-                  {isLive ?
+                  {isLive ? (
                     <button className="btn-yellow" onClick={pauseStaking}>
-                      <img src="\assests\pause.svg" alt="img" className="img-fluid" />
+                      <img
+                        src="\assests\pause.svg"
+                        alt="img"
+                        className="img-fluid"
+                      />
                       Pause Saking
                     </button>
-                    : <button className="btn-yellow" onClick={pauseStaking}>
-                      <img src="\assests\pause.svg" alt="img" className="img-fluid" />
+                  ) : (
+                    <button className="btn-yellow" onClick={pauseStaking}>
+                      <img
+                        src="\assests\pause.svg"
+                        alt="img"
+                        className="img-fluid"
+                      />
                       Resume Saking
                     </button>
-                  }
+                  )}
                 </div>
               </div>
               <div className="reward-token box-shadow">
@@ -552,7 +660,7 @@ const Edit = (props) => {
                         placeholder="Reward Token name"
                         // onChange={handleChange1}
                         className="input-create"
-                      // readOnly={inputs.rewardBNB}
+                        // readOnly={inputs.rewardBNB}
                       />
                     </div>
                     <div className="input-field">
@@ -564,7 +672,7 @@ const Edit = (props) => {
                         placeholder="Reward Token Address"
                         readOnly
                         className="input-create"
-                      // readOnly={inputs.rewardBNB}
+                        // readOnly={inputs.rewardBNB}
                       />
                     </div>
                   </div>
@@ -595,7 +703,7 @@ const Edit = (props) => {
                   <div className="col-xl-4 col-lg-12 col-12 padd-0">
                     <div className="input-field">
                       <p>Reward Token Logo</p>
-                      <div className="upload"  >
+                      <div className="upload">
                         {/* <label htmlFor="after-upload">
                        
                         </label> */}
@@ -612,7 +720,6 @@ const Edit = (props) => {
                           type="file"
                           placeholder="Enter pool name "
                           className="input-create d-none"
-
                         />
                         {/* <input
                           id="after-upload"
@@ -623,22 +730,36 @@ const Edit = (props) => {
                         /> */}
                       </div>
                       <div className="text">
-                        <p>Logo Size: <span>38x38 px</span></p>
-                        <p>File Format: <span>PNG, SVG</span></p>
+                        <p>
+                          Logo Size: <span>38x38 px</span>
+                        </p>
+                        <p>
+                          File Format: <span>PNG, SVG</span>
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="unsaking-btn">
-                  {isLiveUnstake ? 
-                  <button className="btn-yellow" onClick={pauseUnStaking}>
-                    <img src="\assests\pause.svg" alt="img" className="img-fluid" />
-                    Pause UnStaking
-                  </button>
-                  :  <button className="btn-yellow" onClick={pauseUnStaking}>
-                  <img src="\assests\pause.svg" alt="img" className="img-fluid" />
-                  Resume UnStaking
-                </button>}
+                  {isLiveUnstake ? (
+                    <button className="btn-yellow" onClick={pauseUnStaking}>
+                      <img
+                        src="\assests\pause.svg"
+                        alt="img"
+                        className="img-fluid"
+                      />
+                      Pause UnStaking
+                    </button>
+                  ) : (
+                    <button className="btn-yellow" onClick={pauseUnStaking}>
+                      <img
+                        src="\assests\pause.svg"
+                        alt="img"
+                        className="img-fluid"
+                      />
+                      Resume UnStaking
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="other-detail box-shadow">
@@ -662,10 +783,18 @@ const Edit = (props) => {
                             // onChange={handleChange2}
                             value={userDetail?.lockPeriod}
                           >
-                            <option className="">{userDetail?.lockPeriod}</option>
-                            <option value="1" className="inner-option">One</option>
-                            <option value="2" className="inner-option">Two</option>
-                            <option value="3" className="inner-option">Three</option>
+                            <option className="">
+                              {userDetail?.lockPeriod}
+                            </option>
+                            <option value="1" className="inner-option">
+                              One
+                            </option>
+                            <option value="2" className="inner-option">
+                              Two
+                            </option>
+                            <option value="3" className="inner-option">
+                              Three
+                            </option>
                           </select>
                         </div>
                       </div>
@@ -726,7 +855,7 @@ const Edit = (props) => {
                       id="customSwitch2"
                       defaultChecked={userDetail?.autoCompound}
                       disabled
-                    // onChange={handleCompound}
+                      // onChange={handleCompound}
                     />
                     <label class="custom-control-label" for="customSwitch2">
                       Auto Compound
@@ -742,27 +871,37 @@ const Edit = (props) => {
                       defaultChecked={userDetail?.allowPrematureUnstaking}
                       id="customSwitch5"
                       disabled
-                    // onChange={handlepremature}
+                      // onChange={handlepremature}
                     />
                     <label class="custom-control-label" for="customSwitch5">
                       Allow Premature Unstaking
                     </label>
                   </div>
                   <div className="input-field">
-                    {userDetail?.allowPrematureUnstaking == true ?
+                    {userDetail?.allowPrematureUnstaking == true ? (
                       <>
-                        <p className="switch-para">Fee for Premature Unstaking</p>
+                        <p className="switch-para">
+                          Fee for Premature Unstaking
+                        </p>
                         <input
-                          type="text" placeholder="Fee" name="feeUnstaking" value={userDetail?.feeForPrematureUnstaking} className="input-create" />
+                          type="text"
+                          placeholder="Fee"
+                          name="feeUnstaking"
+                          value={userDetail?.feeForPrematureUnstaking}
+                          className="input-create"
+                        />
                       </>
-                      : ''
-                    }
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>
 
               <div className="btn-create">
-                <button className="btn-yellow" onClick={CreatePool}>Edit</button>
+                <button className="btn-yellow" onClick={CreatePool}>
+                  Edit
+                </button>
                 <button className="btn-clear">Clear All</button>
               </div>
             </div>
