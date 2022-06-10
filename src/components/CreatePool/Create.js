@@ -44,7 +44,7 @@ const Create = () => {
     apy: "",
     rewardWalletAddress: "",
     maxSupplyReward: "",
-    chainId: "",
+    chainId: null,
     autoCompound: false,
     PreUnstaking: false,
     feeUnstaking: "",
@@ -73,8 +73,12 @@ const Create = () => {
   };
   const handleChange3 = (e) => {
     const value = e.target.value;
-    setInputs((inputs) => ({ ...inputs, chainId: value }));
+    let a = parseInt(value);
+    console.log("ssssssssssss", a);
+    setInputs((inputs) => ({ ...inputs, chainId: a }));
   };
+
+  console.log("chainnnnnn", inputs);
 
   const handletoken = (evt) => {
     if (evt.target.files) {
@@ -196,7 +200,7 @@ const Create = () => {
       data1.append(
         "rewardTokenSymbol",
         inputs.rewardBNB == true
-          ? isBNB.StakingTokenDecimals
+          ? isBNB.StakingTokenSymbol
           : rewardTokenSymbol
       );
       data1.append("rewardTokenLogo", MyFiles1);
@@ -221,6 +225,7 @@ const Create = () => {
       data1.append("allowPrematureUnstaking", inputs.PreUnstaking);
       data1.append("autoCompound", inputs.autoCompound);
       data1.append("feeForPrematureUnstaking", inputs.feeUnstaking);
+      data1.append("chainId", inputs.chainId);
 
       console.log("apppr", data1);
       axios
@@ -650,7 +655,6 @@ const Create = () => {
                         name="rewardWalletAddress"
                         type="text"
                         placeholder="Connect Your Wallet"
-                        readOnly
                         value={account}
                         onChange={handleChange1}
                         className="input-create"
@@ -682,10 +686,10 @@ const Create = () => {
                       <option selected className="">
                         Select Chain ID
                       </option>
-                      <option value="97" className="inner-option">
+                      <option value={97} className="inner-option">
                         Binance
                       </option>
-                      <option value="4" className="inner-option">
+                      <option value={4} className="inner-option">
                         Etherium
                       </option>
                     </select>

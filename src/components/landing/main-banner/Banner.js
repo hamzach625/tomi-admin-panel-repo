@@ -5,80 +5,81 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import "./banner.scss";
 import { API_URL } from "../../../utils/ApiUrl";
-import axios from 'axios';
+import axios from "axios";
 
 const Banner = () => {
   const [option, setOption] = useState("1");
-  const [allpools, setallpools] = useState()
-  const [search, setSearch] = useState('')
+  const [allpools, setallpools] = useState();
+  const [search, setSearch] = useState("");
   const getallpools = () => {
-    axios.post(`${API_URL}/v1/pool/getAllPools`)
+    axios
+      .post(`${API_URL}/v1/pool/getAllPools`)
       .then((response) => {
         // setOpens(false)
-        setallpools(response.data.allPools)
-        console.log("All KYC we have", response.data.allPools)
+        setallpools(response.data.allPools);
+        console.log("All KYC we have", response.data.allPools);
       })
       .catch((err) => {
-        console.log("errrrrr", err)
+        console.log("errrrrr", err);
         // setOpens(false)
         // toast.warning('Error While Geting Detail', {
         //   position: "top-right",
         //   autoClose: 3000,
         // });
         return false;
-      })
-  }
+      });
+  };
   const handleSearchnew = (e) => {
     const hgf = e.target.value;
     setSearch(hgf);
-  }
+  };
 
-  console.log("hsgdhghdgdghd", allpools)
+  console.log("hsgdhghdgdghd", allpools);
 
-  const allkycproject = allpools?.filter((elem) => {
-    if (search === null) {
-      return elem
-    }
-    else if (elem?.poolName?.toLowerCase().includes(search.toLowerCase())) {
-      return (
-        <tr>
-          <td className=" gj">{elem?.poolName}</td>
-          <td className="ghj">
-            <div className="main">
-              <div className="parent">
-                <div className="inner1">
-                  <img
-                    src={elem?.stakingTokenLogo}
-                    alt="img"
-                    className="img-fluid"
-                  />
+  const allkycproject = allpools
+    ?.filter((elem) => {
+      if (search === null) {
+        return elem;
+      } else if (elem?.poolName?.toLowerCase().includes(search.toLowerCase())) {
+        return (
+          <tr>
+            <td className=" gj">{elem?.poolName}</td>
+            <td className="ghj">
+              <div className="main">
+                <div className="parent">
+                  <div className="inner1">
+                    <img
+                      src={elem?.stakingTokenLogo}
+                      alt="img"
+                      className="img-fluid"
+                    />
+                  </div>
+                  <div className="inner2">
+                    <img
+                      src={elem?.rewardTokenLogo}
+                      alt="img"
+                      className="img-fluid"
+                    />
+                  </div>
                 </div>
-                <div className="inner2">
-                  <img
-                    src={elem?.rewardTokenLogo}
-                    alt="img"
-                    className="img-fluid"
-                  />
+                <div className="para">
+                  <p className="pOnDark">
+                    {elem?.stakingTokenSymbol}-{elem?.rewardTokenSymbol}{" "}
+                  </p>
                 </div>
               </div>
-              <div className="para">
-                <p className="pOnDark">{elem?.stakingTokenSymbol}-{elem?.rewardTokenSymbol} </p>
-              </div>
-            </div>
-          </td>
-          <td className="common-color gj">${elem?.maxSupplyOfRewadPool}</td>
-          <td className="date gj">{elem?.ApyPerscentage}%</td>
-          <td>
-            <Link to="/edit">
-              <button className="btn-common buttonCustom m-0">
-                Edit
-              </button>
-            </Link>
-          </td>
-        </tr>
-      )
-    }
-  })
+            </td>
+            <td className="common-color gj">${elem?.maxSupplyOfRewadPool}</td>
+            <td className="date gj">{elem?.ApyPerscentage}%</td>
+            <td>
+              <Link to="/edit">
+                <button className="btn-common buttonCustom m-0">Edit</button>
+              </Link>
+            </td>
+          </tr>
+        );
+      }
+    })
     .map((elem) => {
       return (
         <tr>
@@ -102,7 +103,9 @@ const Banner = () => {
                 </div>
               </div>
               <div className="para">
-                <p className="pOnDark">{elem?.stakingTokenSymbol}-{elem?.rewardTokenSymbol} </p>
+                <p className="pOnDark">
+                  {elem?.stakingTokenSymbol}-{elem?.rewardTokenSymbol}{" "}
+                </p>
               </div>
             </div>
           </td>
@@ -111,18 +114,16 @@ const Banner = () => {
           {/* <td className="hhhhh gj">Live</td> */}
           <td>
             <Link to="/edit">
-              <button className="btn-common buttonCustom m-0">
-                Edit
-              </button>
+              <button className="btn-common buttonCustom m-0">Edit</button>
             </Link>
           </td>
         </tr>
-      )
-    })
+      );
+    });
 
   useEffect(() => {
-    getallpools()
-  }, [])
+    getallpools();
+  }, []);
 
   return (
     <>
@@ -183,6 +184,9 @@ const Banner = () => {
                                 Pairs
                               </th>
                               <th className="th_name" scope="col">
+                                PoolName
+                              </th>
+                              <th className="th_name" scope="col">
                                 Supply
                               </th>
                               <th className="th_name" scope="col">
@@ -191,15 +195,100 @@ const Banner = () => {
                               {/* <th className="th_name" scope="col">
                                 Status
                               </th> */}
-                              <th className="th_name" scope="col">
+                              {/* <th className="th_name" scope="col">
                                 Details
-                              </th>
+                              </th> */}
                             </tr>
                           </thead>
                           <tbody>
                             {/* {allkycproject} */}
-                            
-                            <tr>
+                            {allpools?.map((elem) => {
+                              return (
+                                <tr>
+                                  <td className="ghj">
+                                    <div className="main">
+                                      <div className="parent">
+                                        <div className="inner1">
+                                          <img
+                                            src={elem?.stakingTokenLogo}
+                                            alt="img"
+                                            className="img-fluid"
+                                          />
+                                        </div>
+                                        <div className="inner2">
+                                          <img
+                                            src={elem?.rewardTokenLogo}
+                                            alt="img"
+                                            className="img-fluid"
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="para">
+                                        <p className="pOnDark">
+                                          {elem?.stakingTokenSymbol +
+                                            "-" +
+                                            elem.rewardTokenSymbol}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td className="common-color gj">
+                                    {elem?.poolName}
+                                  </td>
+                                  <td className="common-color gj">
+                                    {elem?.maxSupplyOfRewadPool}
+                                  </td>
+                                  <td className="date gj">
+                                    {elem?.ApyPerscentage}
+                                  </td>
+                                  {/* <td className="hhhhh gj">Live</td> */}
+                                  <td>
+                                    <Link to="/create">
+                                      <button className="btn-common buttonCustom m-0">
+                                        Edit
+                                      </button>
+                                    </Link>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+
+                            {/* <tr>
+                              <td className="ghj">
+                                <div className="main">
+                                  <div className="parent">
+                                    <div className="inner1">
+                                      <img
+                                        src="./assests\logo\testing.svg"
+                                        alt="img"
+                                        className="img-fluid"
+                                      />
+                                    </div>
+                                    <div className="inner2">
+                                      <img
+                                        src="./assests\logo\testing1.svg"
+                                        alt="img"
+                                        className="img-fluid"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="para">
+                                    <p className="pOnDark">BNB-BUSD </p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="common-color gj">$124,213,453</td>
+                              <td className="date gj">165.17%</td>
+                              <td className="hhhhh gj">Live</td>
+                              <td>
+                                <Link to="/create">
+                                  <button className="btn-common buttonCustom m-0">
+                                    Edit
+                                  </button>
+                                </Link>
+                              </td>
+                            </tr> */}
+                            {/* <tr>
                               <td className="ghj">
                                 <div className="main">
                                   <div className="parent">
@@ -303,77 +392,7 @@ const Banner = () => {
                                   </button>
                                 </Link>
                               </td>
-                            </tr>
-                            <tr>
-                              <td className="ghj">
-                                <div className="main">
-                                  <div className="parent">
-                                    <div className="inner1">
-                                      <img
-                                        src="./assests\logo\testing.svg"
-                                        alt="img"
-                                        className="img-fluid"
-                                      />
-                                    </div>
-                                    <div className="inner2">
-                                      <img
-                                        src="./assests\logo\testing1.svg"
-                                        alt="img"
-                                        className="img-fluid"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="para">
-                                    <p className="pOnDark">BNB-BUSD </p>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="common-color gj">$124,213,453</td>
-                              <td className="date gj">165.17%</td>
-                              <td className="hhhhh gj">Live</td>
-                              <td>
-                                <Link to="/create">
-                                  <button className="btn-common buttonCustom m-0">
-                                    Edit
-                                  </button>
-                                </Link>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="ghj">
-                                <div className="main">
-                                  <div className="parent">
-                                    <div className="inner1">
-                                      <img
-                                        src="./assests\logo\testing.svg"
-                                        alt="img"
-                                        className="img-fluid"
-                                      />
-                                    </div>
-                                    <div className="inner2">
-                                      <img
-                                        src="./assests\logo\testing1.svg"
-                                        alt="img"
-                                        className="img-fluid"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="para">
-                                    <p className="pOnDark">BNB-BUSD </p>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="common-color gj">$124,213,453</td>
-                              <td className="date gj">165.17%</td>
-                              <td className="hhhhh gj">Live</td>
-                              <td>
-                                <Link to="/create">
-                                  <button className="btn-common buttonCustom m-0">
-                                    Edit
-                                  </button>
-                                </Link>
-                              </td>
-                            </tr>
+                            </tr> */}
                           </tbody>
                         </table>
                       </div>
