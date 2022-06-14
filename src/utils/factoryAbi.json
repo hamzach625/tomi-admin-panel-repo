@@ -1,209 +1,202 @@
 [
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_bnbForBnb",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_bnbForToken",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_tokenForBnb",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_tokenForToken",
-                "type": "address"
-            }
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_bnbForBnb", "type": "address" },
+      { "internalType": "address", "name": "_bnbForToken", "type": "address" },
+      { "internalType": "address", "name": "_tokenForBnb", "type": "address" },
+      { "internalType": "address", "name": "_tokenForToken", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "bnbForBnb",
+    "outputs": [
+      { "internalType": "contract BNBForBNB", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "bnbForToken",
+    "outputs": [
+      { "internalType": "contract BNBForTOKEN", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "ownerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_earlyUnstakeFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_lockPeriod",
+            "type": "uint256"
+          }
         ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "inputs": [],
-        "name": "bnbForBnb",
-        "outputs": [
-            {
-                "internalType": "contract BNBForBNB",
-                "name": "",
-                "type": "address"
-            }
+        "internalType": "struct mainStakingFactory.structBnbForBnb",
+        "name": "_values",
+        "type": "tuple"
+      }
+    ],
+    "name": "createBnbForBnb",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "ownerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_earlyUnstakeFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IBEP20",
+            "name": "_rewardingToken",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_rewardingTokenWallet",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_lockPeriod",
+            "type": "uint256"
+          }
         ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "bnbForToken",
-        "outputs": [
-            {
-                "internalType": "contract BNBForTOKEN",
-                "name": "",
-                "type": "address"
-            }
+        "internalType": "struct mainStakingFactory.structBnbForToken",
+        "name": "_values",
+        "type": "tuple"
+      }
+    ],
+    "name": "createBnbForToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "ownerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_earlyUnstakeFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IBEP20",
+            "name": "_stakeToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_lockPeriod",
+            "type": "uint256"
+          }
         ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "address",
-                        "name": "ownerAddress",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "_earlyUnstakeFee",
-                        "type": "uint256"
-                    }
-                ],
-                "internalType": "struct mainStakingFactory.structBnbForBnb",
-                "name": "_values",
-                "type": "tuple"
-            }
+        "internalType": "struct mainStakingFactory.structTokenForBnb",
+        "name": "_values",
+        "type": "tuple"
+      }
+    ],
+    "name": "createTokenForBnb",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "ownerAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_earlyUnstakeFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "contract IBEP20",
+            "name": "_stakingToken",
+            "type": "address"
+          },
+          {
+            "internalType": "contract IBEP20",
+            "name": "_rewardingToken",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_rewardingTokenWallet",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_lockPeriod",
+            "type": "uint256"
+          }
         ],
-        "name": "createBnbForBnb",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "address",
-                        "name": "ownerAddress",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "_earlyUnstakeFee",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "contract IBEP20",
-                        "name": "_rewardingToken",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "_rewardingTokenWallet",
-                        "type": "address"
-                    }
-                ],
-                "internalType": "struct mainStakingFactory.structBnbForToken",
-                "name": "_values",
-                "type": "tuple"
-            }
-        ],
-        "name": "createBnbForToken",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "ownerAddress",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_earlyUnstakeFee",
-                "type": "uint256"
-            },
-            {
-                "internalType": "contract IBEP20",
-                "name": "_stakeToken",
-                "type": "address"
-            }
-        ],
-        "name": "createTokenForBnb",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "components": [
-                    {
-                        "internalType": "address",
-                        "name": "ownerAddress",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "_earlyUnstakeFee",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "contract IBEP20",
-                        "name": "_stakingToken",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "contract IBEP20",
-                        "name": "_rewardingToken",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "_rewardingTokenWallet",
-                        "type": "address"
-                    }
-                ],
-                "internalType": "struct mainStakingFactory.structTokenForToken",
-                "name": "_values",
-                "type": "tuple"
-            }
-        ],
-        "name": "createTokenForToken",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "tokenForBnb",
-        "outputs": [
-            {
-                "internalType": "contract TOKENForBNB",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "tokenForToken",
-        "outputs": [
-            {
-                "internalType": "contract TOKENForTOKEN",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    }
+        "internalType": "struct mainStakingFactory.structTokenForToken",
+        "name": "_values",
+        "type": "tuple"
+      }
+    ],
+    "name": "createTokenForToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokenForBnb",
+    "outputs": [
+      { "internalType": "contract TOKENForBNB", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "tokenForToken",
+    "outputs": [
+      {
+        "internalType": "contract TOKENForTOKEN",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
 ]

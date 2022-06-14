@@ -25,7 +25,7 @@ const Create = () => {
   const [isBNB, setisBNB] = useState({
     StakingTokenName: "Binance Coin",
     StakingTokenSymbol: "BNB",
-    StakingTokenAddress: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    StakingTokenAddress: "-",
     StakingTokenDecimals: "18",
   });
   const [inputs, setInputs] = useState({
@@ -117,15 +117,18 @@ const Create = () => {
     let arg = "";
     let deployNewCollection = "";
     if (inputs.tokenBNB && inputs.rewardBNB) {
+      console.log("bnb-bnb");
       deployNewCollection = "createBnbForBnb";
       arg = {
         ownerAddress: account,
         _earlyUnstakeFee: inputs.PreUnstaking
           ? inputs.feeUnstaking.toString()
           : 0,
+        _lockPeriod: inputs.lockPeriod,
       };
     } else if (inputs.tokenBNB && inputs.rewardBNB == false) {
       deployNewCollection = "createBnbForToken";
+      console.log("bnb-token");
       arg = {
         ownerAddress: account,
         _earlyUnstakeFee: inputs.PreUnstaking
@@ -133,9 +136,11 @@ const Create = () => {
           : 0,
         _rewardingToken: inputs.rewardTokenAddress,
         _rewardingTokenWallet: account,
+        _lockPeriod: inputs.lockPeriod,
       };
     } else if (inputs.tokenBNB == false && inputs.rewardBNB) {
       deployNewCollection = "createTokenForBnb";
+      console.log("token-bnb");
       arg = {
         ownerAddress: account,
         _earlyUnstakeFee: inputs.PreUnstaking
@@ -144,26 +149,32 @@ const Create = () => {
         _stakeToken: inputs.tokenBNB
           ? isBNB.StakingTokenAddress
           : inputs.StakingTokenAddress,
+        _lockPeriod: inputs.lockPeriod,
       };
     } else {
       deployNewCollection = "createTokenForToken";
+      console.log("token-token");
       arg = {
         ownerAddress: account,
-        _earlyUnstakeFee: inputs.PreUnstaking
-          ? inputs.feeUnstaking.toString()
-          : 0,
-        _stakeToken: inputs.tokenBNB
+        _earlyUnstakeFee: inputs.PreUnstaking ? inputs.feeUnstaking : 0,
+        _stakingToken: inputs.tokenBNB
           ? isBNB.StakingTokenAddress
           : inputs.StakingTokenAddress,
         _rewardingToken: inputs.rewardTokenAddress,
         _rewardingTokenWallet: account,
+        _lockPeriod: inputs.lockPeriod,
       };
     }
 
-    console.log("argggg", Environment.factoryContarct);
+    console.log("argggg", arg);
 
     try {
       const contract = getFactoryContract(Environment.factoryContarct, web3);
+
+      console.log("argggg", contract);
+
+      console.log("argggg", arg);
+
       const approved = await contract.methods[deployNewCollection](arg)
         .send({ from: account })
         .on("transactionHash", (tx) => {
@@ -199,9 +210,7 @@ const Create = () => {
       );
       data1.append(
         "rewardTokenSymbol",
-        inputs.rewardBNB == true
-          ? isBNB.StakingTokenSymbol
-          : rewardTokenSymbol
+        inputs.rewardBNB == true ? isBNB.StakingTokenSymbol : rewardTokenSymbol
       );
       data1.append("rewardTokenLogo", MyFiles1);
       data1.append(
@@ -243,6 +252,7 @@ const Create = () => {
         })
         .catch((err) => {
           setMainLoader(false);
+          console.log("approve err", err);
         });
     } catch (err) {
       setMainLoader(false);
@@ -617,16 +627,22 @@ const Create = () => {
                             onChange={handleChange2}
                           >
                             <option selected className="">
-                              Select Months
+                              Select Days
                             </option>
-                            <option value="1" className="inner-option">
-                              One
+                            <option value="90" className="inner-option">
+                              90 Days
                             </option>
-                            <option value="2" className="inner-option">
-                              Two
+                            <option value="120" className="inner-option">
+                              120 Days
                             </option>
-                            <option value="3" className="inner-option">
-                              Three
+                            <option value="180" className="inner-option">
+                              180 Days
+                            </option>
+                            <option value="365" className="inner-option">
+                              365 Days
+                            </option>
+                            <option value="2000" className="inner-option">
+                              2000 Days
                             </option>
                           </select>
                         </div>
